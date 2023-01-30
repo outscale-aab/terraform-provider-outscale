@@ -20,7 +20,7 @@ resource "outscale_flexible_gpu" "fGPU-1" {
 
 
 resource "outscale_flexible_gpu_link" "link_fGPU" {
-   flexible_gpu_id              =  outscale_flexible_gpu.fGPU-1.flexible_gpu_id
+   flexible_gpu_ids              = [outscale_flexible_gpu.fGPU-1.flexible_gpu_id]
     vm_id                        = outscale_vm.MaVM.vm_id
 }
 
@@ -29,7 +29,7 @@ filter {
         name     = "flexible_gpu_ids"
         values   = [outscale_flexible_gpu.fGPU-1.flexible_gpu_id]
     }
-depends_on =[outscale_flexible_gpu_link.link_fGPU]
+depends_on = [outscale_flexible_gpu_link.link_fGPU]
 }
 
 data "outscale_flexible_gpu" "data-fGPU-2" {
@@ -40,7 +40,7 @@ filter {
     }
   filter {
         name     = "generations"
-        values   = [ var.fgpu_gen]
+        values   = [var.fgpu_gen]
     }
   filter {
         name     = "states"
@@ -52,10 +52,10 @@ filter {
     }
   filter {
         name     = "subregion_names"
-        values   = ["${var.region}a"] 
+        values   = ["${var.region}a"]
     }
 
-depends_on =[outscale_flexible_gpu_link.link_fGPU]
+depends_on = [outscale_flexible_gpu_link.link_fGPU]
 }
 
 data "outscale_flexible_gpu" "data-fGPU-3" {
@@ -63,5 +63,5 @@ filter {
         name     = "vm_ids"
         values   = [outscale_vm.MaVM.vm_id]
     }
-depends_on =[outscale_flexible_gpu_link.link_fGPU]
+depends_on = [outscale_flexible_gpu_link.link_fGPU]
 }
